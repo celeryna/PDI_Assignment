@@ -2,24 +2,28 @@ import java.io.*;
 
 
 public class BookManager {
-    public static void readFile(String pFileName)
+
+    public void readFile(String pFileName)
     {
         FileInputStream fileStream = null;
         InputStreamReader isr;
         BufferedReader bufRdr;
-        int lineNum;
         String line;
         try
         {
             fileStream = new FileInputStream(pFileName);
             isr = new InputStreamReader(fileStream);
             bufRdr = new BufferedReader(isr);
-            lineNum = 0;
             line = bufRdr.readLine();
             while(line != null)
             {
-                lineNum++;
-                System.out.println(line);
+                String[] values = line.split(",");
+
+                for (int i = 0; i < values.length; i++) {
+                    System.out.print("[" + i + "]" + values[i] + " ");
+                }
+
+                System.out.println();
                 line = bufRdr.readLine();
             }
             fileStream.close();
