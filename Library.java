@@ -41,7 +41,7 @@ public class Library
           case 4:
               System.out.print("Enter Author's Name: ");
               String authorName = sc.nextLine();
-              viewBooksByAuthor(authorName);
+              viewBooksByAuthor(authorName
               break;
           case 5:
               addBook()
