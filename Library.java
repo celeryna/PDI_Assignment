@@ -6,6 +6,7 @@ public class Library
     {
       Scanner sc = new Scanner(System.in);
       BookManager manager = new BookManager();
+      manager.readFile("StartingDataFile_1.csv");
       int choice = 0;
       
       do
@@ -29,7 +30,7 @@ public class Library
             switch(choice)
             {
               case 1:
-                  manager.readFile("StartingDataFile_1.csv");
+                manager.viewAllBooks();
                   // viewAllBooks();
                   break;
     
