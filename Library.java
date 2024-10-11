@@ -22,11 +22,11 @@ public class Library
         System.out.println(" 6 > Edit Book");
         System.out.println(" 7 > Exit");
         System.out.println("************************************");
-        System.out.println("Your choice: ");
+        System.out.print("Your choice: ");
         
         try 
         {
-            choice = sc.nextInt();
+            sc.nextInt();
             switch(choice)
             {
               case 1:
