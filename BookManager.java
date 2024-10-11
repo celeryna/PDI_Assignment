@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Spliterators;
 
 
 public class BookManager {
@@ -14,17 +15,43 @@ public class BookManager {
             fileStream = new FileInputStream(pFileName);
             isr = new InputStreamReader(fileStream);
             bufRdr = new BufferedReader(isr);
+
+            //count rows
+            int rows = 0;
+            while (bufRdr.readLine() != null)
+            {
+                rows++;
+            }
+            fileStream.close();
+
+            fileStream = new FileInputStream(pFileName);
+            isr = new InputStreamReader(fileStream);
+            bufRdr = new BufferedReader(isr);
+
+            //read header and count columns
             line = bufRdr.readLine();
-            while(line != null)
+            String[] headers = line.split(",");
+            int columns = headers.length;
+
+            //initialise 2D array
+            String[][] booksData = new String[rows][columns];
+
+            int i = 0;
+            while((line = bufRdr.readLine()) != null)
             {
                 String[] values = line.split(",");
 
-                for (int i = 0; i < values.length; i++) {
-                    System.out.print("[" + i + "]" + values[i] + " ");
+                for (int j = 0; j < values.length; j++)
+                {
+                    booksData[i][j] = values[j];
                 }
 
+                for (int j = 0; j < values.length; j++)
+                {
+                    System.out.print(headers[j] + ": " + booksData[i][j] + " | ");
+                }
                 System.out.println();
-                line = bufRdr.readLine();
+                i++;
             }
             fileStream.close();
         }
