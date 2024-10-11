@@ -68,13 +68,16 @@ public class BookManager
         }
     }
 
-    public void createBookDatabase(){
+    public void createBookDatabase()
+    {
+        books = new Book[booksData.length];
         for (int i = 0; i < booksData.length; i++)
         {
             
             Book newBook = new Book(booksData[i][0], Integer.parseInt(booksData[i][13]), booksData[i][14], Boolean.parseBoolean(booksData[i][15]), Integer.parseInt(booksData[i][16]));
             Author[] authors = new Author[3];
 
+            authors[0] = new Author();
             authors[0].setFirstName(booksData[i][2]);
             authors[0].setLastName(booksData[i][1]);
             authors[0].setNationality(booksData[i][3]);
@@ -82,6 +85,7 @@ public class BookManager
 
             if (booksData[i][6] != null && !booksData[i][6].isEmpty())
             {
+                authors[1] = new Author();
                 authors[1].setFirstName(booksData[i][6]);
                 authors[1].setLastName(booksData[i][5]);
                 authors[1].setNationality(booksData[i][7]);
@@ -90,13 +94,15 @@ public class BookManager
 
             if (booksData[i][10] != null && !booksData[i][10].isEmpty())
             {
-                authors[1].setFirstName(booksData[i][10]);
-                authors[1].setLastName(booksData[i][9]);
-                authors[1].setNationality(booksData[i][11]);
-                authors[1].setYearOfBirth(Integer.parseInt(booksData[i][12]));
+                authors[2] = new Author();
+                authors[2].setFirstName(booksData[i][10]);
+                authors[2].setLastName(booksData[i][9]);
+                authors[2].setNationality(booksData[i][11]);
+                authors[2].setYearOfBirth(Integer.parseInt(booksData[i][12]));
             }
 
             newBook.setAuthors(authors);
+            books[i] = new Book();
             books[i] = newBook;
         }
     }
@@ -110,24 +116,25 @@ public class BookManager
             {
                 continue; // Skip this row if title is null or empty
             }
+
             System.out.println("**************************************");
             System.out.println("Title: " + books[i].getTitle());
-            System.out.println("Author 1: " + books[i].getAuthors()[0].getFirstName() + " " + books[i].getAuthors()[0].getLastName() + " (" + booksData[i][3] + ", Born: " + booksData[i][4] + ")");
+            System.out.println("Author 1: " + books[i].getAuthors()[0].getFirstName() + " " + books[i].getAuthors()[0].getLastName() + " (" + books[i].getAuthors()[0].getNationality() + ", Born: " + books[i].getAuthors()[0].getYearOfBirth() + ")");
 
-            if (booksData[i][6] != null && !booksData[i][6].isEmpty())
+            if (books[i].getAuthors()[1] != null) 
             {
-                System.out.println("Author 2: " + booksData[i][6] + " " + booksData[i][5] + " (" + booksData[i][7] + ", Born: " + booksData[i][8] + ")");
+                System.out.println("Author 2: " + books[i].getAuthors()[1].getFirstName() + " " + books[i].getAuthors()[1].getLastName() + " (" + books[i].getAuthors()[1].getNationality() + ", Born: " + books[i].getAuthors()[1].getYearOfBirth() + ")");
             }
 
-            if (booksData[i][10] != null && !booksData[i][10].isEmpty())
+            if (books[i].getAuthors()[2] != null)
             {
-                System.out.println("Author 3: " + booksData[i][10] + " " + booksData[i][9] + " (" + booksData[i][11] + ", Born: " + booksData[i][12] + ")");
+                System.out.println("Author 3: " + books[i].getAuthors()[2].getFirstName() + " " + books[i].getAuthors()[2].getLastName() + " (" + books[i].getAuthors()[2].getNationality() + ", Born: " + books[i].getAuthors()[2].getYearOfBirth() + ")");
             }
 
             System.out.println("Year: " + books[i].getYear());
-            System.out.println("ISBN: " + booksData[i][14]);
+            System.out.println("ISBN: " + books[i].getIsbn());
             System.out.println("eBook: " + books[i].isEbook());
-            System.out.println("Edition: " + booksData[i][16]);
+            System.out.println("Edition: " + books[i].getEdition());
             System.out.println("**************************************\n");
         }
     }
@@ -137,42 +144,42 @@ public class BookManager
         // Loop through the data to display books in a formatted way
         for (int i = 0; i < booksData.length; i++)
         {
-            if (booksData[i][0] == null || booksData[i][0].isEmpty())
+            if (books[i].getTitle() == null)
             {
                 continue; // Skip this row if title is null or empty
             }
 
             if (isEbook) 
             {
-                if (books[i].isEbook() == false) {
+                if (books[i].isEbook() == true) {
                     continue; // Skip rows that are a non-ebook
                 }
             }
             else 
             {
-                if (booksData[i][15].equals("TRUE")) {
+                if (books[i].isEbook() == false) {
                     continue; // Skip rows that are an ebook
                 }
             }
 
             System.out.println("**************************************");
-            System.out.println("Title: " + booksData[i][0]);
-            System.out.println("Author 1: " + booksData[i][2] + " " + booksData[i][1] + " (" + booksData[i][3] + ", Born: " + booksData[i][4] + ")");
+            System.out.println("Title: " + books[i].getTitle());
+            System.out.println("Author 1: " + books[i].getAuthors()[0].getFirstName() + " " + books[i].getAuthors()[0].getLastName() + " (" + books[i].getAuthors()[0].getNationality() + ", Born: " + books[i].getAuthors()[0].getYearOfBirth() + ")");
 
-            if (booksData[i][6] != null && !booksData[i][6].isEmpty())
+            if (books[i].getAuthors()[1] != null) 
             {
-                System.out.println("Author 2: " + booksData[i][6] + " " + booksData[i][5] + " (" + booksData[i][7] + ", Born: " + booksData[i][8] + ")");
+                System.out.println("Author 2: " + books[i].getAuthors()[1].getFirstName() + " " + books[i].getAuthors()[1].getLastName() + " (" + books[i].getAuthors()[1].getNationality() + ", Born: " + books[i].getAuthors()[1].getYearOfBirth() + ")");
             }
 
-            if (booksData[i][10] != null && !booksData[i][10].isEmpty())
+            if (books[i].getAuthors()[2] != null)
             {
-                System.out.println("Author 3: " + booksData[i][10] + " " + booksData[i][9] + " (" + booksData[i][11] + ", Born: " + booksData[i][12] + ")");
+                System.out.println("Author 3: " + books[i].getAuthors()[2].getFirstName() + " " + books[i].getAuthors()[2].getLastName() + " (" + books[i].getAuthors()[2].getNationality() + ", Born: " + books[i].getAuthors()[2].getYearOfBirth() + ")");
             }
 
-            System.out.println("Year: " + booksData[i][13]);
-            System.out.println("ISBN: " + booksData[i][14]);
-            System.out.println("eBook: " + (booksData[i][15].equalsIgnoreCase("true") ? "Yes" : "No"));
-            System.out.println("Edition: " + booksData[i][16]);
+            System.out.println("Year: " + books[i].getYear());
+            System.out.println("ISBN: " + books[i].getIsbn());
+            System.out.println("eBook: " + books[i].isEbook());
+            System.out.println("Edition: " + books[i].getEdition());
             System.out.println("**************************************\n");
         }
     }
@@ -194,34 +201,36 @@ public class BookManager
 
         System.out.println();
         
-        for (int i = 0; i < booksData.length; i++)
+        for (int i = 0; i < books.length; i++)
         {
-            if (booksData[i][0] == null || booksData[i][0].isEmpty())
+            if (books[i] == null)
             {
                 continue; // Skip rows with no book title
             }
 
             //check for matching author 1
-            if (booksData[i][2].equalsIgnoreCase(firstName) && booksData[i][1].equalsIgnoreCase(lastName))
+            if (books[i].getAuthors()[0].getFirstName().equalsIgnoreCase(firstName) && books[i].getAuthors()[0].getLastName().equalsIgnoreCase(lastName))
             {
-                displayBookDetails(i);
+                displayBookDetails(books[i], books[i].getAuthors()[0]);
                 found = true;
             }
 
             //check for matching author 2, if exists
-            if (booksData[i][6] != null && !booksData[i][6].isEmpty() &&
-            booksData[i][6].equalsIgnoreCase(firstName) && booksData[i][5].equalsIgnoreCase(lastName))
-            {
-                displayBookDetails(i);
-                found = true;
+            if (books[i].getAuthors()[1] != null) {
+                if (books[i].getAuthors()[1].getFirstName().equalsIgnoreCase(firstName) && books[i].getAuthors()[1].getLastName().equalsIgnoreCase(lastName))
+                {
+                    displayBookDetails(books[i], books[i].getAuthors()[1]);
+                    found = true;
+                }
             }
 
             //check for matching author 3, if exists
-            if (booksData[i][10] != null && !booksData[i][10].isEmpty() &&
-            booksData[i][10].equalsIgnoreCase(firstName) && booksData[i][9].equalsIgnoreCase(lastName))
-            {
-                displayBookDetails(i);
-                found = true;
+            if (books[i].getAuthors()[2] != null) {
+                if (books[i].getAuthors()[2].getFirstName().equalsIgnoreCase(firstName) && books[i].getAuthors()[2].getLastName().equalsIgnoreCase(lastName))
+                {
+                    displayBookDetails(books[i], books[i].getAuthors()[2]);
+                    found = true;
+                }
             }
         }
 
@@ -231,20 +240,20 @@ public class BookManager
         }
     }
 
-    private void displayBookDetails(int bookRow)
+    private void displayBookDetails(Book book, Author author)
     {
         System.out.println("Book:");
-        System.out.println("Title: " + booksData[bookRow][0]);
-        System.out.println("Published: " + booksData[bookRow][13]);
-        System.out.println("ISBN: " + booksData[bookRow][14]);
-        System.out.println("eBook: " + (booksData[bookRow][15].equalsIgnoreCase("true") ? "true" : "false"));
-        System.out.println("Edition: " + booksData[bookRow][16]);
+        System.out.println("Title: " + book.getTitle());
+        System.out.println("Published: " + book.getYear());
+        System.out.println("ISBN: " + book.getIsbn());
+        System.out.println("eBook: " + book.isEbook());
+        System.out.println("Edition: " + book.getEdition());
         System.out.println("Author:");
         
         // Display author 1 details
-        System.out.println("Name: " + booksData[bookRow][2] + " " + booksData[bookRow][1]);
-        System.out.println("Nationality: " + booksData[bookRow][3]);
-        System.out.println("Born: " + booksData[bookRow][4]);
+        System.out.println("Name: " + author.getFirstName() + " " + author.getLastName());
+        System.out.println("Nationality: " + author.getNationality());
+        System.out.println("Born: " + author.getYearOfBirth());
         
         System.out.println();
     }

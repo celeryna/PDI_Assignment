@@ -7,6 +7,14 @@ public class Book
     private int edition;
     private Author[] authors;
 
+    public Book() {
+        this.title = "None";
+        this.year = 0000;
+        this.isbn = "None";
+        this.ebook = false;
+        this.edition = 0;
+    }
+
     // Constructor without authors array
     public Book(String title, int year, String isbn, boolean ebook, int edition)
     {
