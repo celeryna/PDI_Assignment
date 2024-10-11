@@ -31,34 +31,36 @@ public class Library
             {
               case 1:
                 manager.viewAllBooks();
-                  // viewAllBooks();
-                  break;
+                break;
     
               case 2:
-                  // viewEbooks();
-                  break;
+                manager.filterBooks(true);
+                break;
     
               case 3:
-                  // viewNonebooks();
-                  break;
+                manager.filterBooks(false);
+                break;
     
               case 4:
-                  System.out.print("Enter Author's Name: ");
-                  String authorName = sc.nextLine();
-                  // viewBooksByAuthor(authorName);
-                  break;
+                System.out.print("Enter Author Name (FirstName LastName): ");
+                String fullName = sc.nextLine();
+                manager.viewBooksByAuthor(fullName);
+                break;
+
               case 5:
-                  // addBook()
-                  break;
+                // addBook()
+                break;
+
               case 6:
-                  // editBook()
-                  break;
+                // editBook()
+                break;
+
               case 7:
-                  System.out.println("Exiting...");
-                  break;
+                System.out.println("Exiting...");
+                break;
     
               default:
-                  System.out.println("Invalid choice. Try again.\n");
+                System.out.println("Invalid choice. Try again.\n");
             }
         } 
         catch (InputMismatchException e) {
