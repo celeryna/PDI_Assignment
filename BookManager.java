@@ -47,12 +47,6 @@ public class BookManager {
                 {
                     booksData[i][j] = values[j];
                 }
-
-                for (int j = 0; j < values.length; j++)
-                {
-                    System.out.print(headers[j] + ": " + booksData[i][j] + " | ");
-                }
-                System.out.println();
                 i++;
             }
             fileStream.close();
@@ -102,7 +96,6 @@ public class BookManager {
             System.out.println("Edition: " + booksData[i][16]);
             System.out.println("**************************************\n");
         }
-
     }
 
 }
