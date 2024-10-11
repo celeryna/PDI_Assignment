@@ -1,10 +1,11 @@
 import java.io.*;
-import java.util.Spliterators;
 
 
-public class BookManager {
+public class BookManager
+{
 
     public String[][] booksData;
+    public Book[] books;
 
     public void readFile(String pFileName)
     {
@@ -67,18 +68,51 @@ public class BookManager {
         }
     }
 
+    public void createBookDatabase(){
+        for (int i = 0; i < booksData.length; i++)
+        {
+            
+            Book newBook = new Book(booksData[i][0], Integer.parseInt(booksData[i][13]), booksData[i][14], Boolean.parseBoolean(booksData[i][15]), Integer.parseInt(booksData[i][16]));
+            Author[] authors = new Author[3];
+
+            authors[0].setFirstName(booksData[i][2]);
+            authors[0].setLastName(booksData[i][1]);
+            authors[0].setNationality(booksData[i][3]);
+            authors[0].setYearOfBirth(Integer.parseInt(booksData[i][4]));
+
+            if (booksData[i][6] != null && !booksData[i][6].isEmpty())
+            {
+                authors[1].setFirstName(booksData[i][6]);
+                authors[1].setLastName(booksData[i][5]);
+                authors[1].setNationality(booksData[i][7]);
+                authors[1].setYearOfBirth(Integer.parseInt(booksData[i][8]));
+            }
+
+            if (booksData[i][10] != null && !booksData[i][10].isEmpty())
+            {
+                authors[1].setFirstName(booksData[i][10]);
+                authors[1].setLastName(booksData[i][9]);
+                authors[1].setNationality(booksData[i][11]);
+                authors[1].setYearOfBirth(Integer.parseInt(booksData[i][12]));
+            }
+
+            newBook.setAuthors(authors);
+            books[i] = newBook;
+        }
+    }
+
     public void viewAllBooks()
     {
         // Loop through the data to display books in a formatted way
-        for (int i = 0; i < booksData.length; i++)
+        for (int i = 0; i < books.length; i++)
         {
-            if (booksData[i][0] == null || booksData[i][0].isEmpty())
+            if (books[i].getTitle() == null)
             {
                 continue; // Skip this row if title is null or empty
             }
             System.out.println("**************************************");
-            System.out.println("Title: " + booksData[i][0]);
-            System.out.println("Author 1: " + booksData[i][2] + " " + booksData[i][1] + " (" + booksData[i][3] + ", Born: " + booksData[i][4] + ")");
+            System.out.println("Title: " + books[i].getTitle());
+            System.out.println("Author 1: " + books[i].getAuthors()[0].getFirstName() + " " + books[i].getAuthors()[0].getLastName() + " (" + booksData[i][3] + ", Born: " + booksData[i][4] + ")");
 
             if (booksData[i][6] != null && !booksData[i][6].isEmpty())
             {
@@ -90,9 +124,9 @@ public class BookManager {
                 System.out.println("Author 3: " + booksData[i][10] + " " + booksData[i][9] + " (" + booksData[i][11] + ", Born: " + booksData[i][12] + ")");
             }
 
-            System.out.println("Year: " + booksData[i][13]);
+            System.out.println("Year: " + books[i].getYear());
             System.out.println("ISBN: " + booksData[i][14]);
-            System.out.println("eBook: " + (booksData[i][15].equalsIgnoreCase("true") ? "Yes" : "No"));
+            System.out.println("eBook: " + books[i].isEbook());
             System.out.println("Edition: " + booksData[i][16]);
             System.out.println("**************************************\n");
         }
@@ -108,9 +142,9 @@ public class BookManager {
                 continue; // Skip this row if title is null or empty
             }
 
-            if (isEbook == true) 
+            if (isEbook) 
             {
-                if (booksData[i][15].equals("FALSE")) {
+                if (books[i].isEbook() == false) {
                     continue; // Skip rows that are a non-ebook
                 }
             }

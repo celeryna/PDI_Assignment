@@ -7,6 +7,7 @@ public class Library
       Scanner sc = new Scanner(System.in);
       BookManager manager = new BookManager();
       manager.readFile("StartingDataFile_1.csv");
+      manager.createBookDatabase();
       int choice = 0;
       
       do
@@ -26,7 +27,7 @@ public class Library
         
         try 
         {
-            sc.nextInt();
+            choice = sc.nextInt();
             switch(choice)
             {
               case 1:
