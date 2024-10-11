@@ -42,6 +42,7 @@ public class Library
                 break;
     
               case 4:
+                sc.nextLine(); 
                 System.out.print("Enter Author Name (FirstName LastName): ");
                 String fullName = sc.nextLine();
                 manager.viewBooksByAuthor(fullName);
