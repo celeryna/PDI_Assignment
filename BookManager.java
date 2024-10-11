@@ -157,10 +157,8 @@ public class BookManager {
         String lastName = nameParts[1];
 
         boolean found = false;
-        System.out.println("************************************");
-        System.out.println("Books by Author");
-        System.out.println("************************************");
-        System.out.println("Enter Author Name: " + lastName);
+
+        System.out.println();
         
         for (int i = 0; i < booksData.length; i++)
         {
@@ -214,7 +212,7 @@ public class BookManager {
         System.out.println("Nationality: " + booksData[bookRow][3]);
         System.out.println("Born: " + booksData[bookRow][4]);
         
-        System.out.println("************************************\n");
+        System.out.println();
     }
 }
 

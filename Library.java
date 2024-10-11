@@ -43,6 +43,10 @@ public class Library
     
               case 4:
                 sc.nextLine(); 
+                System.out.println();
+                System.out.println("************************************");
+                System.out.println("          Books by Author");
+                System.out.println("************************************");
                 System.out.print("Enter Author Name (FirstName LastName): ");
                 String fullName = sc.nextLine();
                 manager.viewBooksByAuthor(fullName);
