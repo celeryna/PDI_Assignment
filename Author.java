@@ -1,3 +1,9 @@
+/********************************************
+ * Author: Celerina Reyes                   *
+ * Created: 09/10/2024                      *
+ * Purpose: Represents an Author of a Book  *
+ *******************************************/
+
 public class Author
 {
     private String firstName;

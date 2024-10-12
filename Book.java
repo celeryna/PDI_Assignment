@@ -1,3 +1,9 @@
+/********************************************
+ * Author: Celerina Reyes                   *
+ * Created: 09/10/2024                      *
+ * Purpose: Represent a Book in the library *
+ *******************************************/
+
 public class Book 
 {
     private String title;
@@ -7,7 +13,8 @@ public class Book
     private int edition;
     private Author[] authors;
 
-    public Book() {
+    public Book()
+    {
         this.title = "None";
         this.year = 0000;
         this.isbn = "None";
