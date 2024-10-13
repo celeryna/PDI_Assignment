@@ -14,7 +14,10 @@ public class Book
     private int edition;
     private Author[] authors;
 
-    // Constructor to initialise the book with default values :O
+    // NAME: Book
+    // IMPORT: none
+    // EXPORT: none
+    // PURPOSE: constructor to initialise the book with default values :O
     public Book()
     {
         this.title = "None";
@@ -24,7 +27,10 @@ public class Book
         this.edition = 0;
     }
 
-    // These constructors have parameters for initialised, without the athors array :)
+    // NAME: Book
+    // IMPORT: title (String), year (int), isbn (String), ebook (boolean), edition (int)
+    // EXPORT: none
+    // PURPOSE: these constructors have parameters for initialised, without the athors array :)
     public Book(String title, int year, String isbn, boolean ebook, int edition)
     {
         this.title = title;
@@ -33,7 +39,7 @@ public class Book
         this.ebook = ebook;
         this.edition = edition;
     }
-
+    
     // Getter and Setter for the title...
     public String getTitle() 
     {

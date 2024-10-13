@@ -8,6 +8,10 @@ import java.util.*;
 
 public class Library
 {
+    // NAME: main                                                                    
+    // IMPORT: args (String[]), command-line arguments 
+    // EXPORT: none                                    
+    // PURPOSE: The entry point for the application    
     public static void main(String[] args)
     {
         Scanner sc = new Scanner(System.in);
@@ -43,11 +47,17 @@ public class Library
                 {
                     case 1:
                         // View ALL books from the library :D
+                        System.out.println("\n************************************");
+                        System.out.println("           All Books");
+                        System.out.println("************************************");
                         manager.viewAllBooks();
                         break;
 
                     case 2:
                         // View ONLY eBooks from the library ^.^
+                        System.out.println("\n************************************");
+                        System.out.println("              eBooks");
+                        System.out.println("************************************");
                         manager.filterBooks(true);
                         break;
 
@@ -167,7 +177,7 @@ public class Library
                                 sc.next();  // Clear the invalid input :(
                             }
                         }
-                        
+
                         // If valid input is provided, continue to enter the author's details :)
                         Author[] authors = new Author[numberOfAuthors];
                     
