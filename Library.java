@@ -16,6 +16,7 @@ public class Library
         manager.createBookDatabase();
         int choice = 0;
       
+        // A loop for the main library menu. It will keep running until the user chooses to exit :)
         do
         {
             System.out.println("\n************************************");  
@@ -31,22 +32,27 @@ public class Library
             System.out.println("************************************");
             System.out.print("Your choice: ");
         
+            // Try-catch block to handle invalid inputs for the menu choices :)
             try 
             {
                 choice = sc.nextInt();
-                sc.nextLine(); // Consume leftover newline after nextInt()
-
+                sc.nextLine();
+                
+                // Switch-case for the different user choices :o
                 switch(choice)
                 {
                     case 1:
+                        // View ALL books from the library :D
                         manager.viewAllBooks();
                         break;
 
                     case 2:
+                        // View ONLY eBooks from the library ^.^
                         manager.filterBooks(true);
                         break;
 
                     case 3:
+                        //View ONLY non-eBooks from the library (GenZ: "omg what is that :O")
                         System.out.println("\n************************************");
                         System.out.println("          Non-eBooks");
                         System.out.println("************************************");
@@ -54,6 +60,7 @@ public class Library
                         break;
 
                     case 4:
+                        // View books by SPECIFIC author >:)
                         boolean found = false;
 
                         while(!found)
@@ -67,7 +74,8 @@ public class Library
                         }
                         break;
 
-                        case 5:
+                    case 5:
+                        // Add a NEW book to the library XD
                         System.out.println("\n************************************");  
                         System.out.println("             Add Books");
                         System.out.println("************************************");
@@ -80,11 +88,11 @@ public class Library
                         int edition = -1;
                         int numberOfAuthors = 0;
                     
-                        // Prompt for the title
+                        // Prompt the user for the title...
                         System.out.print("Title: ");
                         title = sc.nextLine();  
                     
-                        // Prompt for the year and handle invalid input
+                        // Prompt the user for the year published (& handle invalid input)...
                         boolean validYear = false;
                         while (!validYear)
                         {
@@ -92,21 +100,21 @@ public class Library
                             try
                             {
                                 year = sc.nextInt();
-                                sc.nextLine();  // Consume the newline left by nextInt()
-                                validYear = true;  // If input is valid, exit the loop
+                                sc.nextLine();
+                                validYear = true;  // If input is valid, exit the loop :)
                             }
                             catch (InputMismatchException e)
                             {
                                 System.out.println("Invalid input :( Please enter a valid year.");
-                                sc.next();  // Clear the invalid input
+                                sc.next();  // Clear the invalid input :(
                             }
                         }
                     
-                        // Prompt for ISBN
+                        // Prompt the user for ISBN...
                         System.out.print("ISBN: ");
                         isbn = sc.nextLine();
                     
-                        // Prompt for eBook status and handle invalid input
+                        // Prompt the user for eBook status (& handle invalid input)...
                         boolean validEbook = false;
                         while (!validEbook)
                         {
@@ -114,7 +122,7 @@ public class Library
                             ebook = sc.nextLine();
                             if (ebook.equals("true") || ebook.equals("false"))
                             {
-                                validEbook = true;  // Valid input entered
+                                validEbook = true;
                             }
                             else
                             {
@@ -122,7 +130,7 @@ public class Library
                             }
                         }
                     
-                        // Prompt for the edition and handle invalid input
+                        // Prompt the user for the edition and handle invalid input
                         boolean validEdition = false;
                         while (!validEdition)
                         {
@@ -130,24 +138,24 @@ public class Library
                             try
                             {
                                 edition = sc.nextInt();
-                                sc.nextLine();  // Consume the newline left by nextInt()
-                                validEdition = true;  // If input is valid, exit the loop
+                                sc.nextLine();
+                                validEdition = true;  // If input is valid, exit the loop :)
                             }
                             catch (InputMismatchException e)
                             {
                                 System.out.println("Invalid input :( Please enter a valid edition number.");
-                                sc.next();  // Clear the invalid input
+                                sc.next();  // Clear the invalid input :(
                             }
                         }
                     
-                        // Prompt for the number of authors and handle invalid input
+                        // Prompt the user for the number of authors (& handle invalid input)...
                         while (numberOfAuthors < 1 || numberOfAuthors > 3)
                         {
                             System.out.print("Enter number of authors (max 3): ");
                             try
                             {
                                 numberOfAuthors = sc.nextInt();
-                                sc.nextLine();  // Consume the newline left by nextInt()
+                                sc.nextLine(); 
                                 if (numberOfAuthors < 1 || numberOfAuthors > 3)
                                 {
                                     System.out.println("Invalid number of authors :( Please enter between 1 and 3.");
@@ -156,19 +164,21 @@ public class Library
                             catch (InputMismatchException e)
                             {
                                 System.out.println("Invalid input:( Please enter a number between 1 and 3.");
-                                sc.next();  // Clear the invalid input
+                                sc.next();  // Clear the invalid input :(
                             }
                         }
-                    
-                        // Proceed to enter author details if valid input is provided
+                        
+                        // If valid input is provided, continue to enter the author's details :)
                         Author[] authors = new Author[numberOfAuthors];
                     
                         for (int i = 1; i <= numberOfAuthors; i++)
                         {
+                            // A new Author object
                             authors[i-1] = new Author();
                     
                             System.out.println("\nAuthor " + i + ":");
                     
+                            // Prompt the user for author details... (first name, last name, nationality, year of birth :))
                             System.out.print("First Name: ");
                             String firstName = sc.nextLine();
                             authors[i-1].setFirstName(firstName);
@@ -188,29 +198,31 @@ public class Library
                                 try
                                 {
                                     int yearOfBirth = sc.nextInt();
-                                    sc.nextLine();  // Consume the newline after nextInt()
+                                    sc.nextLine();
                                     authors[i-1].setYearOfBirth(yearOfBirth);
                                     validYearOfBirth = true;
                                 }
                                 catch (InputMismatchException e)
                                 {
                                     System.out.println("Invalid input :( Please enter a valid year of birth.");
-                                    sc.next();  // Clear the invalid input
+                                    sc.next();  // Clear the invalid input :(
                                 }
                             }
                         }
                     
-                        // Add the new book to the manager
+                        // Adds the NEW BOOK to the manager
                         manager.addBook(title, year, isbn, ebook, edition, authors);
                         System.out.println("\nNew book added successfully! :D");
                         break;
                     
                     
                     case 6:
+                        // EDIT an existing book from the library :))
                         System.out.println("\n************************************");  
                         System.out.println("             Edit Books");
                         System.out.println("************************************");
 
+                        // List ALL BOOKS with a number for the selection :O
                         for (int i = 0; i < manager.books.length; i++) 
                         {
                             if (manager.books[i] == null) 
@@ -221,6 +233,7 @@ public class Library
                             System.out.println("[" + bookNum + "] " + manager.books[i].getTitle());
                         }
 
+                        // A try-catch block for book selecting and Editing
                         try 
                         {
                             System.out.println("\n-- Select a book to edit by the number --");
@@ -242,6 +255,8 @@ public class Library
 
                             System.out.print("New value: ");
                             String detailValue = sc.nextLine();
+
+                            // Edit the chosen book detail...
                             manager.editBook(bookChoice, detailChoice, detailValue);
                             System.out.println("\nBook edited successfully! :D");
 
@@ -249,26 +264,28 @@ public class Library
                         catch (InputMismatchException e) 
                         {
                             System.out.println("Invalid input :( Please enter a valid number.");
-                            sc.next();  // Clear the invalid input
+                            sc.next();  // Clear the invalid input :(
                         }
                         break;
 
                     case 7:
+                        // To EXIT the program (Nooo don't go D:)
                         System.out.println("Exiting...");
                         break;
 
                     default:
+                        // To handle invalid menu choices (oopsies)
                         System.out.println("Invalid choice :( Try again.\n");
                 }
             } 
             catch (InputMismatchException e) 
             {
                 System.out.println("Invalid choice :( Please enter a number.");
-                sc.next();  // Clear the invalid input
+                sc.next();  // Clear the invalid input :(
             }
         }
-        while (choice != 7);
+        while (choice != 7); // Loop until the user chooses to leave (until 7 is input) :)
 
-        sc.close();
+        sc.close(); // Bye bye Scanner
     }
 }
