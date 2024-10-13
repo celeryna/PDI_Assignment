@@ -22,7 +22,6 @@ public class Book
         this.edition = 0;
     }
 
-    // Constructor without authors array
     public Book(String title, int year, String isbn, boolean ebook, int edition)
     {
         this.title = title;
