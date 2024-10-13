@@ -6,7 +6,7 @@
 
 public class Book 
 {
-    // These are fields to store book detail...
+    // These are the private fields to store book details...
     private String title;
     private int year;
     private String isbn;
