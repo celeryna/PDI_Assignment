@@ -1,0 +1,314 @@
+BEGIN BooksManager
+
+    // NAME: readFile
+    // IMPORT: pFileName
+    // EXPORT: none
+    // PURPOSE: reads the CSV file and stores the data in a 2D array :)
+
+    METHOD 
+
+        booksData = []
+        books = []
+
+        fileStream = NULL
+        
+        TRY
+            fileStream = openFile(pFileName)
+            bufRdr = createBufferedReader(fileStream)
+
+            rows = 0
+            WHILE bufRdr.readLine() IS NOT NULL DO
+                rows = rows + 1
+            END WHILE
+            closeFile(fileStream)
+
+            fileStream = openFile(pFileName)
+            bufRdr = createBufferedReader(fileStream)
+            line = bufRdr.readLine()
+            headers = split(line, ",")
+            columns = length(headers)
+
+            booksData = new 2D array with size (rows, columns)
+
+            i = 0
+            WHILE line = bufRdr.readLine() IS NOT NULL DO
+                values = split(line, ",")
+                FOR j = 0 TO length(values) - 1 DO
+                    booksData[i][j] = values[j] // This makes sure that each value is stored in the correct position
+                END FOR
+                i = i + 1
+            END WHILE
+            closeFile(fileStream)
+        CATCH error
+            IF fileStream IS NOT NULL THEN
+                closeFile(fileStream)
+            END IF
+            OUTPUT "Error in file processing: " + error.getMessage()
+
+        END TRY
+
+    END METHOD
+
+
+    // NAME: createBookDatabase
+    // IMPORT: none
+    // EXPORT: none
+    // PURPOSE: processes the data read from the CSV and then creates Book objects :o
+    
+    METHOD
+
+        books = new array with size (length of booksData)
+
+        FOR i = 0 TO length(booksData) - 1 DO
+            IF booksData[i][0] IS NULL THEN
+                continue // So empty rows are skipped :)
+            END IF
+
+            newBook = new Book(booksData[i][0], toInteger(booksData[i][13]), booksData[i][14], toBoolean(booksData[i][15]), toInteger(booksData[i][16]))
+            newAuthors = new array with size 3
+
+            // This will create and set the FIRST AUTHOR :o
+            newAuthors[0] = new Author()
+            newAuthors[0].setFirstName(booksData[i][2])
+            newAuthors[0].setLastName(booksData[i][1])
+            newAuthors[0].setNationality(booksData[i][3])
+            newAuthors[0].setYearOfBirth(toInteger(booksData[i][4]))
+
+            // If a second author is detected, this will create and set the SECOND AUTHOR :O
+            IF booksData[i][6] IS NOT NULL AND booksData[i][6] IS NOT EMPTY THEN
+                newAuthors[1] = new Author()
+                newAuthors[1].setFirstName(booksData[i][6])
+                newAuthors[1].setLastName(booksData[i][5])
+                newAuthors[1].setNationality(booksData[i][7])
+                newAuthors[1].setYearOfBirth(toInteger(booksData[i][8]))
+            END IF
+
+            // If a third author is detected, this will create and set the THIRD AUTHOR :D
+            IF booksData[i][10] IS NOT NULL AND booksData[i][10] IS NOT EMPTY THEN
+                newAuthors[2] = new Author()
+                newAuthors[2].setFirstName(booksData[i][10])
+                newAuthors[2].setLastName(booksData[i][9])
+                newAuthors[2].setNationality(booksData[i][11])
+                newAuthors[2].setYearOfBirth(toInteger(booksData[i][12]))
+            END IF
+
+            newBook.setAuthors(newAuthors) // Set all of the authors of the book
+            books[i] = newBook
+        END FOR
+
+    END METHOD
+
+
+    // NAME: viewAllBooks
+    // IMPORT: none
+    // EXPORT: none
+    // PURPOSE: prints the details of ALL the books of the library :)
+
+    METHOD 
+
+        FOR i = 0 TO length(books) - 1 DO
+            IF books[i] IS NULL THEN
+                continue // NULL entries will be SKIPPED >:D
+            END IF
+
+            OUTPUT "Title: " + books[i].getTitle()
+            OUTPUT "Author 1: " + books[i].getAuthors()[0].getFirstName() + " " + books[i].getAuthors()[0].getLastName() + " (" + books[i].getAuthors()[0].getNationality() + ", Born: " + books[i].getAuthors()[0].getYearOfBirth() + ")"
+
+            // If there's more than 1 author, their details will also be printed
+            IF length(books[i].getAuthors()) > 1 AND books[i].getAuthors()[1] IS NOT NULL THEN
+                OUTPUT "Author 2: " + books[i].getAuthors()[1].getFirstName() + " " + books[i].getAuthors()[1].getLastName() + " (" + books[i].getAuthors()[1].getNationality() + ", Born: " + books[i].getAuthors()[1].getYearOfBirth() + ")"
+            END IF
+
+            IF length(books[i].getAuthors()) > 2 AND books[i].getAuthors()[2] IS NOT NULL THEN
+                OUTPUT "Author 3: " + books[i].getAuthors()[2].getFirstName() + " " + books[i].getAuthors()[2].getLastName() + " (" + books[i].getAuthors()[2].getNationality() + ", Born: " + books[i].getAuthors()[2].getYearOfBirth() + ")"
+            END IF
+
+            OUTPUT "Year: " + books[i].getYear()
+            OUTPUT "ISBN: " + books[i].getIsbn()
+            OUTPUT "eBook: " + books[i].isEbook()
+            OUTPUT "Edition: " + books[i].getEdition()
+        END FOR
+
+    END METHOD
+
+
+    // NAME: filterBooks
+    // IMPORT: isEbook (boolean)
+    // EXPORT: none
+    // PURPOSE: filters books based on if it is an eBook or not :O
+
+    METHOD
+
+        FOR i = 0 TO length(books) - 1 DO
+            IF books[i] IS NULL THEN
+                continue // NULL entries will be SKIPPED >:D
+            END IF
+
+            // This will only display eBooks or only display non-eBooks depending on the user's input :)
+            IF isEbook = TRUE AND books[i].isEbook() = FALSE THEN
+                continue
+            END IF
+
+            IF isEbook = FALSE AND books[i].isEbook() = TRUE THEN
+                continue
+            END IF
+
+            OUTPUT "Title: " + books[i].getTitle()
+            OUTPUT "Author 1: " + books[i].getAuthors()[0].getFirstName() + " " + books[i].getAuthors()[0].getLastName() + " (" + books[i].getAuthors()[0].getNationality() + ", Born: " + books[i].getAuthors()[0].getYearOfBirth() + ")"
+
+            IF length(books[i].getAuthors()) > 1 AND books[i].getAuthors()[1] IS NOT NULL THEN
+                OUTPUT "Author 2: " + books[i].getAuthors()[1].getFirstName() + " " + books[i].getAuthors()[1].getLastName() + " (" + books[i].getAuthors()[1].getNationality() + ", Born: " + books[i].getAuthors()[1].getYearOfBirth() + ")"
+            END IF
+
+            IF length(books[i].getAuthors()) > 2 AND books[i].getAuthors()[2] IS NOT NULL THEN
+                OUTPUT "Author 3: " + books[i].getAuthors()[2].getFirstName() + " " + books[i].getAuthors()[2].getLastName() + " (" + books[i].getAuthors()[2].getNationality() + ", Born: " + books[i].getAuthors()[2].getYearOfBirth() + ")"
+            END IF
+
+            OUTPUT "Year: " + books[i].getYear()
+            OUTPUT "ISBN: " + books[i].getIsbn()
+            OUTPUT "eBook: " + books[i].isEbook()
+            OUTPUT "Edition: " + books[i].getEdition()
+        END FOR
+
+    END METHOD
+
+
+    // NAME: viewBooksByAuthor
+    // IMPORT: fullname (String)
+    // EXPORT: found (boolean)
+    // PURPOSE: finds and shows the user all books written by a SPECIFIC author :D
+    
+    METHOD
+
+        nameParts = split(fullname, " ")
+
+        IF length(nameParts) < 2 THEN
+            OUTPUT "Please enter both first name and last name!"
+            RETURN FALSE // If the name is incomplete
+        END IF
+
+        firstName = nameParts[0]
+        lastName = nameParts[1]
+
+        found = FALSE
+
+        FOR i = 0 TO length(books) - 1 DO
+            IF books[i] IS NULL THEN
+                continue // NULL entries will be SKIPPED >:)
+            END IF
+
+            // This will check for matching author 1...
+            IF books[i].getAuthors()[0].getFirstName() = firstName AND books[i].getAuthors()[0].getLastName() = lastName THEN
+                displayBookDetails(books[i], books[i].getAuthors()[0])
+                found = TRUE
+            END IF
+
+            // If there is an existing second author, it will check for a match...
+            IF length(books[i].getAuthors()) > 1 AND books[i].getAuthors()[1] IS NOT NULL THEN
+                IF books[i].getAuthors()[1].getFirstName() = firstName AND books[i].getAuthors()[1].getLastName() = lastName THEN
+                    displayBookDetails(books[i], books[i].getAuthors()[1])
+                    found = TRUE
+                END IF
+            END IF
+
+            // If there is an existing third author, it will check for a match...
+            IF length(books[i].getAuthors()) > 2 AND books[i].getAuthors()[2] IS NOT NULL THEN
+                IF books[i].getAuthors()[2].getFirstName() = firstName AND books[i].getAuthors()[2].getLastName() = lastName THEN
+                    displayBookDetails(books[i], books[i].getAuthors()[2])
+                    found = TRUE
+                END IF
+            END IF
+        END FOR
+
+        IF found = FALSE THEN
+            OUTPUT "No books found for the author " + fullname + ". :( "
+            OUTPUT "Please try again... :)"
+        END IF
+
+        RETURN found
+
+    END METHOD
+
+
+    // NAME: displayBookDetails
+    // IMPORT: book (Book), author (Author)
+    // EXPORT: none
+    // PURPOSE: prints details about a specific book and the author(s) :P
+    
+    METHOD
+
+        OUTPUT "Book:"
+        OUTPUT "Title: " + book.getTitle()
+        OUTPUT "Published: " + book.getYear()
+        OUTPUT "ISBN: " + book.getIsbn()
+        OUTPUT "eBook: " + book.isEbook()
+        OUTPUT "Edition: " + book.getEdition()
+        OUTPUT "Author:"
+        OUTPUT "Name: " + author.getFirstName() + " " + author.getLastName()
+        OUTPUT "Nationality: " + author.getNationality()
+        OUTPUT "Born: " + author.getYearOfBirth()
+
+    END METHOD
+
+
+    // NAME: addBook
+    // IMPORT: title (String), year (int), isbn (String), ebook (String), edition (int), authors (Author[])
+    // EXPORT: none
+    // PURPOSE: gives the user the ability to create a new Book object. This adds it to the library
+    
+    METHOD
+
+        isEbook = ebook = "true"
+
+        newBook = new Book(title, year, isbn, isEbook, edition)
+        newBook.setAuthors(authors)
+
+        newBooksArray = new array with size (length(books) + 1)
+
+        FOR i = 0 TO length(books) - 1 DO
+            newBooksArray[i] = books[i]
+        END FOR
+
+        newBooksArray[length(books)] = newBook
+        books = newBooksArray
+
+    END METHOD
+
+
+    // NAME: editBook
+    // IMPORT: bookIndex (int), bookDetail (int), detail (String)
+    // EXPORT: none
+    // PURPOSE: gives the user the ability to edit the values of an existing book :J
+    
+    METHOD
+
+        CASE bookDetail OF
+
+            1:
+                books[bookIndex].setTitle(detail)
+
+            2:
+                books[bookIndex].setYear(toInteger(detail))
+
+            3:
+                books[bookIndex].setIsbn(detail)
+
+            4:
+                IF detail = "true" OR detail = "false" THEN
+                    books[bookIndex].setEbook(toBoolean(detail))
+                ELSE
+                    OUTPUT "Invalid input for eBook :("
+                    OUTPUT "Please enter 'true' or 'false'... :)"
+                END IF
+
+            5:
+                books[bookIndex].setEdition(toInteger(detail))
+
+            DEFAULT:
+                OUTPUT "Please select a valid option... :("
+
+        END CASE
+
+    END METHOD
+
+END

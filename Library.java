@@ -1,6 +1,6 @@
 /************************************
  * Author: Celerina Reyes           *
- * Created: 09/10/2024              *
+ * Created: 07/10/2024              *
  * Purpose: Library of books system *
  ************************************/
 
@@ -111,7 +111,7 @@ public class Library
                             {
                                 year = sc.nextInt();
                                 sc.nextLine();
-                                validYear = true;  // If input is valid, exit the loop :)
+                                validYear = true;  // If the input is valid, the loop will exit  :)
                             }
                             catch (InputMismatchException e)
                             {
@@ -140,7 +140,7 @@ public class Library
                             }
                         }
                     
-                        // Prompt the user for the edition and handle invalid input
+                        // Prompt the user for the edition and handle invalid input...
                         boolean validEdition = false;
                         while (!validEdition)
                         {
@@ -220,7 +220,7 @@ public class Library
                             }
                         }
                     
-                        // Adds the NEW BOOK to the manager
+                        // Adds the NEW BOOK to the manager :P
                         manager.addBook(title, year, isbn, ebook, edition, authors);
                         System.out.println("\nNew book added successfully! :D");
                         break;
@@ -243,7 +243,7 @@ public class Library
                             System.out.println("[" + bookNum + "] " + manager.books[i].getTitle());
                         }
 
-                        // A try-catch block for book selecting and Editing
+                        // A try-catch block for book selecting and Editing...
                         try 
                         {
                             System.out.println("\n-- Select a book to edit by the number --");
@@ -296,6 +296,6 @@ public class Library
         }
         while (choice != 7); // Loop until the user chooses to leave (until 7 is input) :)
 
-        sc.close(); // Bye bye Scanner
+        sc.close(); // Bye-bye Scanner
     }
 }

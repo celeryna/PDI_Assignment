@@ -1,0 +1,120 @@
+BEGIN Books
+
+    // These are the private fields to store book details...
+    title = ""
+    year = 0
+    isbn = ""
+    ebook = FALSE
+    edition = 0
+    authors = []
+
+    // NAME: Book
+    // IMPORT: none
+    // EXPORT: none
+    // PURPOSE: constructor to initialise the book with default values :O
+
+    METHOD
+
+        title = "None"
+        year = 0000
+        isbn = "None"
+        ebook = FALSE
+        edition = 0
+
+    END METHOD
+
+
+    // NAME: Book
+    // IMPORT: title (String), year (int), isbn (String), ebook (boolean), edition (int)
+    // EXPORT: none
+    // PURPOSE: these constructors have parameters for initialised, without the authors array :)
+
+    METHOD
+
+        this.title = title
+        this.year = year
+        this.isbn = isbn
+        this.ebook = ebook
+        this.edition = edition
+
+    END METHOD
+
+
+    // Getter and Setter for the title...
+    METHOD
+
+        RETURN title
+
+    END METHOD
+    METHOD setTitle(title)
+
+        this.title = title
+
+    END METHOD
+
+
+    // Getter and Setter for the published year...
+    METHOD
+
+        RETURN year
+
+    END METHOD
+    METHOD setYear(year)
+
+        this.year = year
+
+    END METHOD
+
+
+    // Getter and Setter for the ISBN...
+    METHOD
+
+        RETURN isbn
+
+    END METHOD
+    METHOD setIsbn(isbn)
+
+        this.isbn = isbn
+
+    END METHOD
+
+
+    // Getter and Setter to check that the book is an eBook...
+    METHOD
+
+        RETURN ebook
+
+    END METHOD
+    METHOD setEbook(ebook)
+
+        this.ebook = ebook
+
+    END METHOD
+
+
+    // Getter and Setter for the edition...
+    METHOD
+
+        RETURN edition
+
+    END METHOD
+    METHOD setEdition(edition)
+
+        this.edition = edition
+
+    END METHOD
+
+
+    // Getter and Setter for authors...
+    METHOD
+
+        RETURN authors
+
+    END METHOD
+    METHOD setAuthors(authors)
+
+        this.authors = authors
+
+    END METHOD
+
+END

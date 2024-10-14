@@ -1,0 +1,23 @@
+1. View all books 
+    IMPLEMENTED: yes
+    FUNCTIONS CORRECTLY: yes
+
+2. View all eBooks
+    IMPLEMENTED: yes
+    FUNCTIONS CORRECTLY: yes
+
+3. View all non-eBooks
+    IMPLEMENTED: yes
+    FUNCTIONS CORRECTLY: yes
+
+4. View an author's books
+    IMPLEMENTED: yes
+    FUNCTIONS CORRECTLY: yes
+
+5. Add book
+    IMPLEMENTED: yes
+    FUNCTIONS CORRECTLY: yes
+
+6. Edit book
+    IMPLENTED: yes
+    FUNCTIONS CORRECTLY: yes

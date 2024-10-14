@@ -1,0 +1,207 @@
+BEGIN Library
+
+    // NAME: main                                                                    
+    // IMPORT: none
+    // EXPORT: none                                    
+    // PURPOSE: The entry point for the application
+
+    MAIN
+
+        choice = 0
+        manager = new BookManager()
+
+        // Read the starting data file and create the book database
+        manager.readFile("StartingDataFile_1.csv")
+        manager.createBookDatabase()
+
+        // A loop for the main library menu. It will keep running until the user chooses to exit :)
+        WHILE choice != 7 DO
+            // Display the main menu to the user
+            OUTPUT "************************************"
+            OUTPUT "      Welcome to the Library        "
+            OUTPUT "************************************"
+            OUTPUT " 1 > View all Books"
+            OUTPUT " 2 > View eBooks"
+            OUTPUT " 3 > View non-eBooks"
+            OUTPUT " 4 > View an author's Books"
+            OUTPUT " 5 > Add Book"
+            OUTPUT " 6 > Edit Book"
+            OUTPUT " 7 > Exit"
+            OUTPUT "************************************"
+            OUTPUT "Your choice: "
+
+            // Try-catch block to handle invalid inputs for the menu choices :)
+            TRY
+                INPUT choice
+                
+                // Switch-case for the different user choices :o
+                CASE choice OF
+
+                    1:
+                        // View ALL books from the library :D
+                        OUTPUT "************************************"
+                        OUTPUT "           All Books"
+                        OUTPUT "************************************"
+                        manager.viewAllBooks()
+
+                    2:
+                        // View ONLY eBooks from the library ^.^
+                        OUTPUT "************************************"
+                        OUTPUT "              eBooks"
+                        OUTPUT "************************************"
+                        manager.filterBooks(true)
+
+                    3:
+                        // View ONLY non-eBooks from the library (GenZ: "omg what is that :O")
+                        OUTPUT "************************************"
+                        OUTPUT "          Non-eBooks"
+                        OUTPUT "************************************"
+                        manager.filterBooks(false)
+
+                    4:
+                        // View books by SPECIFIC author >:)
+                        found = FALSE
+
+                        // Keep prompting until a valid author is found
+                        WHILE found = FALSE DO
+                            OUTPUT "************************************"
+                            OUTPUT "          Books by Author"
+                            OUTPUT "************************************"
+                            OUTPUT "Enter Author Name (FirstName LastName): "
+                            INPUT authorName
+                            found = manager.viewBooksByAuthor(authorName)
+                        END WHILE
+
+                    5:
+                        // Add a NEW book to the library XD
+                        OUTPUT "************************************"  
+                        OUTPUT "             Add Books"
+                        OUTPUT "************************************"
+                        OUTPUT "New Book:"
+
+                        // Prompt the user for the title...
+                        OUTPUT "Title: "
+                        INPUT title
+
+                        // Prompt the user for the year published (& handle invalid input)...
+                        validYear = FALSE
+                        WHILE validYear = FALSE DO
+                            OUTPUT "Published: "
+                            TRY
+                                INPUT year
+                                validYear = TRUE
+                            CATCH
+                                OUTPUT "Invalid input :( Please enter a valid year."
+
+                        // Prompt the user for ISBN...
+                        OUTPUT "ISBN: "
+                        INPUT isbn
+
+                        // Prompt the user for eBook status (& handle invalid input)...
+                        validEbook = FALSE
+                        WHILE validEbook = FALSE DO
+                            OUTPUT "eBook (true/false): "
+                            INPUT ebook
+                            IF ebook = "true" OR ebook = "false" THEN
+                                validEbook = TRUE
+                            ELSE
+                                OUTPUT "Invalid input :( Please enter 'true' or 'false'."
+
+                        // Prompt the user for the edition and handle invalid input
+                        validEdition = FALSE
+                        WHILE validEdition = FALSE DO
+                            OUTPUT "Edition: "
+                            TRY
+                                INPUT edition
+                                validEdition = TRUE
+                            CATCH
+                                OUTPUT "Invalid input :( Please enter a valid edition number."
+
+                        // Prompt the user for the number of authors (& handle invalid input)...
+                        validAuthors = FALSE
+                        WHILE validAuthors = FALSE DO
+                            OUTPUT "Enter number of authors (max 3): "
+                            TRY
+                                INPUT numberOfAuthors
+                                IF numberOfAuthors >= 1 AND numberOfAuthors <= 3 THEN
+                                    validAuthors = TRUE
+                                ELSE
+                                    OUTPUT "Invalid number of authors :( Please enter between 1 and 3."
+                            CATCH
+                                OUTPUT "Invalid input :( Please enter a number between 1 and 3."
+
+                        // If valid input is provided, continue to enter the author's details :)
+                        FOR i = 1 TO numberOfAuthors DO
+                            OUTPUT "Author " + i + ":"
+                            OUTPUT "First Name: "
+                            INPUT authors[i-1].firstName
+                            OUTPUT "Last Name: "
+                            INPUT authors[i-1].lastName
+                            OUTPUT "Nationality: "
+                            INPUT authors[i-1].nationality
+
+                            // Prompt for year of birth (& handle invalid input)
+                            validYearOfBirth = FALSE
+                            WHILE validYearOfBirth = FALSE DO
+                                OUTPUT "Year of Birth: "
+                                TRY
+                                    INPUT authors[i-1].yearOfBirth
+                                    validYearOfBirth = TRUE
+                                CATCH
+                                    OUTPUT "Invalid input :( Please enter a valid year of birth."
+
+                        // Adds the NEW BOOK to the manager
+                        manager.addBook(title, year, isbn, ebook, edition, authors)
+                        OUTPUT "New book added successfully! :D"
+
+                    6:
+                        // EDIT an existing book from the library :))
+                        OUTPUT "************************************"  
+                        OUTPUT "             Edit Books"
+                        OUTPUT "************************************"
+
+                        // List ALL BOOKS with a number for the selection :O
+                        FOR i = 0 TO LENGTH(manager.books) - 1 DO
+                            IF manager.books[i] IS NOT NULL THEN
+                                OUTPUT "[" + (i+1) + "] " + manager.books[i].getTitle()
+                            END IF
+                        END FOR
+
+                        OUTPUT "Select a book to edit by the number: "
+                        INPUT bookChoice
+
+                        // Display book details and prompt for editing
+                        OUTPUT "What value would you like to change from that book? "
+                        OUTPUT "[1] Title: " + manager.books[bookChoice-1].getTitle()
+                        OUTPUT "[2] Year: " + manager.books[bookChoice-1].getYear()
+                        OUTPUT "[3] ISBN: " + manager.books[bookChoice-1].getIsbn()
+                        OUTPUT "[4] eBook: " + manager.books[bookChoice-1].isEbook()
+                        OUTPUT "[5] Edition: " + manager.books[bookChoice-1].getEdition()
+                        OUTPUT "Select a value to edit by the number: "
+                        INPUT detailChoice
+
+                        // Prompt for the new value
+                        OUTPUT "New value: "
+                        INPUT detailValue
+
+                        // Edit the chosen book detail...
+                        manager.editBook(bookChoice-1, detailChoice, detailValue)
+                        OUTPUT "Book edited successfully! :D"
+
+                    7:
+                        // To EXIT the program (Nooo don't go D:)
+                        OUTPUT "Exiting..."
+
+                    DEFAULT:
+                        // To handle invalid menu choices (oopsies)
+                        OUTPUT "Invalid choice :( Try again."
+
+                END CASE
+            CATCH
+                OUTPUT "Invalid choice :( Please enter a number."
+
+        END WHILE // Loop until the user chooses to leave (until 7 is input) :)
+
+    END MAIN
+    
+END
