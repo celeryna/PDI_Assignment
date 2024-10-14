@@ -1,0 +1,60 @@
+BEGIN
+
+    // These are the private fields for the author details :)
+    firstName = ""
+    lastName = ""
+    yearOfBirth = 0
+    nationality = ""
+
+    // Getter and Setter for the first name...
+    METHOD
+
+        RETURN firstName
+
+    END METHOD
+    METHOD
+
+        this.firstName = firstName
+
+    END METHOD
+
+
+    // Getter and Setter for the last name...
+    METHOD
+
+        RETURN lastName
+
+    END METHOD
+    METHOD
+
+        this.lastName = lastName
+
+    END METHOD
+
+
+    // Getter and Setter for the year of birth...
+    METHOD
+
+        RETURN yearOfBirth
+
+    END METHOD
+    METHOD
+
+        this.yearOfBirth = yearOfBirth
+
+    END METHOD
+
+
+    // Getter and Setter for the Nationality...
+    METHOD
+
+        RETURN nationality
+
+    END METHOD
+    METHOD
+
+        this.nationality = nationality
+
+    END METHOD
+
+END
